@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO -->
+  <title>دليل فيصل - دليلك الشامل للخدمات في منطقتك</title>
+  <meta name="description" content="دليل فيصل: أسرع طريقة للوصول إلى جميع الخدمات في منطقتك — صيدليات، سباكين، مطاعم، كهربائيين، متاجر، أطباء.">
+  <meta name="keywords" content="دليل فيصل, خدمات, صيدلية, سباك, مطعم, كهربائي, متجر, طبيب, دليل الخدمات">
+  <meta name="author" content="دليل فيصل">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="دليل فيصل - دليلك الشامل للخدمات">
+  <meta property="og:description" content="أسرع طريقة للوصول إلى كل الخدمات في منطقتك — صيدليات، سباكين، محلات، وأكثر">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://daleelfaisal.com">
+  <meta property="og:locale" content="ar_SA">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="دليل فيصل - دليلك الشامل للخدمات">
+  <meta name="twitter:description" content="أسرع طريقة للوصول إلى كل الخدمات في منطقتك">
+
+  <!-- PWA / Mobile -->
+  <meta name="theme-color" content="#0066ff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+  <!-- Font Awesome 6 (critical icons inline + async load full set) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "دليل فيصل",
+    "description": "دليل الخدمات الشامل في منطقتك",
+    "url": "https://daleelfaisal.com",
+    "telephone": "+966500000000",
+    "areaServed": "SA",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+966500000000",
+      "contactType": "customer service"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Skip link for keyboard users -->
+  <a href="#hero" class="skip-link">تخطى إلى المحتوى الرئيسي</a>
+
+  <!-- Header -->
+  <header class="header" role="banner">
+    <div class="container header__inner">
+      <a href="#" class="logo" aria-label="دليل فيصل - الصفحة الرئيسية">
+        <i class="fas fa-compass logo__icon" aria-hidden="true"></i>
+        <span class="logo__text">دليل فيصل</span>
+      </a>
+      <nav class="nav" id="nav" role="navigation" aria-label="القائمة الرئيسية">
+        <a href="#hero" class="nav__link" data-nav>الرئيسية</a>
+        <a href="#services" class="nav__link" data-nav>الخدمات</a>
+        <a href="#contact" class="nav__link" data-nav>تواصل معنا</a>
+      </nav>
+      <div class="header__actions">
+        <button class="theme-toggle" id="themeToggle" aria-label="تبديل الوضع النهاري/الليلي" title="الوضع الليلي">
+          <i class="fas fa-moon" aria-hidden="true"></i>
+        </button>
+        <button class="hamburger" id="hamburger" aria-label="فتح/إغلاق القائمة" aria-expanded="false" aria-controls="nav">
+          <span class="hamburger__line" aria-hidden="true"></span>
+          <span class="hamburger__line" aria-hidden="true"></span>
+          <span class="hamburger__line" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" id="hero" aria-label="القسم الرئيسي">
+    <div class="container hero__inner">
+      <h1 class="hero__title">مرحباً بك في <span>دليل فيصل</span></h1>
+      <p class="hero__subtitle">أسرع طريقة للوصول إلى كل الخدمات في منطقتك — صيدليات، سباكين، محلات، وأكثر</p>
+      <form class="search-form" id="searchForm" role="search" aria-label="بحث عن الخدمات">
+        <label for="searchInput" class="visually-hidden">ابحث عن خدمة</label>
+        <div class="search-form__wrapper">
+          <i class="fas fa-search search-form__icon" aria-hidden="true"></i>
+          <input type="text" class="search-form__input" id="searchInput" placeholder="ابحث عن خدمة... صيدلية، سباك، محل" autocomplete="off">
+        </div>
+        <button type="submit" class="search-form__btn">بحث</button>
+      </form>
+      <div class="hero__tags" role="group" aria-label="خدمات سريعة">
+        <span class="hero__tag" data-search="صيدلية" role="button" tabindex="0">صيدلية</span>
+        <span class="hero__tag" data-search="سباك" role="button" tabindex="0">سباك</span>
+        <span class="hero__tag" data-search="مطعم" role="button" tabindex="0">مطعم</span>
+        <span class="hero__tag" data-search="كهربائي" role="button" tabindex="0">كهربائي</span>
+        <span class="hero__tag" data-search="محل ملابس" role="button" tabindex="0">محل ملابس</span>
+      </div>
+    </div>
+    <div class="hero__wave" aria-hidden="true">
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none">
+        <path d="M0,60 C360,120 1080,0 1440,60 L1440,120 L0,120 Z" fill="var(--bg)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services section" id="services" aria-label="الخدمات">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-header__title">خدماتنا</h2>
+        <p class="section-header__desc">أبرز الخدمات المتوفرة في دليل فيصل</p>
+      </div>
+      <div class="services__grid" id="servicesGrid" role="list">
+        <div class="service-card reveal" data-category="صيدلية" role="listitem">
+          <div class="service-card__icon" style="--clr:#2ecc71;" aria-hidden="true">
+            <i class="fas fa-prescription-bottle-alt"></i>
+          </div>
+          <h3 class="service-card__title">صيدليات</h3>
+          <p class="service-card__desc">أقوى الصيدليات في منطقتك بأحدث الأدوية والمستلزمات الطبية</p>
+          <a href="#" class="service-card__link">تصفح الصيدليات <i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+        </div>
+        <div class="service-card reveal" data-category="سباك" role="listitem">
+          <div class="service-card__icon" style="--clr:#3498db;" aria-hidden="true">
+            <i class="fas fa-wrench"></i>
+          </div>
+          <h3 class="service-card__title">سباكين</h3>
+          <p class="service-card__desc">سباكين محترفين لتصليح وتركيب جميع التمديدات المنزلية</p>
+          <a href="#" class="service-card__link">تصفح السباكين <i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+        </div>
+        <div class="service-card reveal" data-category="مطعم" role="listitem">
+          <div class="service-card__icon" style="--clr:#e67e22;" aria-hidden="true">
+            <i class="fas fa-utensils"></i>
+          </div>
+          <h3 class="service-card__title">مطاعم</h3>
+          <p class="service-card__desc">أشهر المطاعم مع تقييمات الزوار وأسرع توصيل للمنزل</p>
+          <a href="#" class="service-card__link">تصفح المطاعم <i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+        </div>
+        <div class="service-card reveal" data-category="كهربائي" role="listitem">
+          <div class="service-card__icon" style="--clr:#9b59b6;" aria-hidden="true">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3 class="service-card__title">كهربائيين</h3>
+          <p class="service-card__desc">كهربائيين خبراء لصيانة وتركيب الأنظمة الكهربائية</p>
+          <a href="#" class="service-card__link">تصفح الكهربائيين <i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+        </div>
+        <div class="service-card reveal" data-category="متجر" role="listitem">
+          <div class="service-card__icon" style="--clr:#f39c12;" aria-hidden="true">
+            <i class="fas fa-store"></i>
+          </div>
+          <h3 class="service-card__title">متاجر</h3>
+          <p class="service-card__desc">أفضل المحلات التجارية لتلبية احتياجاتك اليومية</p>
+          <a href="#" class="service-card__link">تصفح المتاجر <i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+        </div>
+        <div class="service-card reveal" data-category="طبيب" role="listitem">
+          <div class="service-card__icon" style="--clr:#1abc9c;" aria-hidden="true">
+            <i class="fas fa-user-md"></i>
+          </div>
+          <h3 class="service-card__title">أطباء</h3>
+          <p class="service-card__desc">أفضل الأطباء والمراكز الطبية في تخصصات متعددة</p>
+          <a href="#" class="service-card__link">تصفح الأطباء <i class="fas fa-arrow-left" aria-hidden="true"></i></a>
+        </div>
+      </div>
+      <div class="no-results" id="noResults" aria-live="polite">
+        <i class="fas fa-search-minus" aria-hidden="true"></i>
+        <p>لا توجد نتائج مطابقة للبحث "<span id="noResultsTerm"></span>"</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats section" aria-label="إحصائيات">
+    <div class="container stats__grid">
+      <div class="stat-card reveal">
+        <i class="fas fa-building stat-card__icon" aria-hidden="true"></i>
+        <span class="stat-card__num" data-target="150" aria-label="150 خدمة مدرجة">0</span>
+        <span class="stat-card__label">خدمة مدرجة</span>
+      </div>
+      <div class="stat-card reveal">
+        <i class="fas fa-users stat-card__icon" aria-hidden="true"></i>
+        <span class="stat-card__num" data-target="3200" aria-label="3200 مستخدم نشط">0</span>
+        <span class="stat-card__label">مستخدم نشط</span>
+      </div>
+      <div class="stat-card reveal">
+        <i class="fas fa-star stat-card__icon" aria-hidden="true"></i>
+        <span class="stat-card__num" data-target="480" aria-label="480 تقييم">0</span>
+        <span class="stat-card__label">تقييم</span>
+      </div>
+      <div class="stat-card reveal">
+        <i class="fas fa-city stat-card__icon" aria-hidden="true"></i>
+        <span class="stat-card__num" data-target="12" aria-label="12 منطقة">0</span>
+        <span class="stat-card__label">منطقة</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact section" id="contact" aria-label="تواصل معنا">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-header__title">تواصل معنا</h2>
+        <p class="section-header__desc">عندك استفسار أو اقتراح؟ نحن هنا لخدمتك</p>
+      </div>
+      <div class="contact__content">
+        <form class="contact__form" id="contactForm" novalidate>
+          <label for="contactName" class="visually-hidden">الاسم</label>
+          <input type="text" id="contactName" class="contact__input" placeholder="الاسم" required aria-required="true">
+          <label for="contactEmail" class="visually-hidden">البريد الإلكتروني</label>
+          <input type="email" id="contactEmail" class="contact__input" placeholder="البريد الإلكتروني" required aria-required="true">
+          <label for="contactMsg" class="visually-hidden">رسالتك</label>
+          <textarea id="contactMsg" class="contact__input contact__textarea" rows="4" placeholder="رسالتك..." required aria-required="true"></textarea>
+          <button type="submit" class="contact__btn">إرسال <i class="fas fa-paper-plane" aria-hidden="true"></i></button>
+        </form>
+        <div class="contact__info">
+          <a href="https://wa.me/966500000000" target="_blank" rel="noopener noreferrer" class="whatsapp-btn" aria-label="تواصل عبر واتساب">
+            <i class="fab fa-whatsapp" aria-hidden="true"></i>
+            <span>تواصل عبر واتساب</span>
+          </a>
+          <p class="contact__tel"><i class="fas fa-phone" aria-hidden="true"></i> +966 50 000 0000</p>
+          <p class="contact__email"><i class="fas fa-envelope" aria-hidden="true"></i> info@daleelfaisal.com</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <div class="container footer__inner">
+      <p class="footer__copy">© 2026 <strong>دليل فيصل</strong> — كل الحقوق محفوظة</p>
+      <div class="footer__socials">
+        <a href="#" class="footer__social" aria-label="تويتر"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+        <a href="#" class="footer__social" aria-label="سناب شات"><i class="fab fa-snapchat" aria-hidden="true"></i></a>
+        <a href="#" class="footer__social" aria-label="انستقرام"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button class="back-to-top" id="backToTop" aria-label="العودة إلى الأعلى" tabindex="-1">
+    <i class="fas fa-arrow-up" aria-hidden="true"></i>
+  </button>
+
+  <script src="js/script.js" defer></script>
+</body>
+</html>
