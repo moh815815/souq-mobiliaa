@@ -1,20 +1,18 @@
 /* ===== Utilities ===== */
 function debounce(fn, ms) {
   let timer;
-  return (...args) => {
-    clearTimeout(timer);
-    timer = setTimeout(() => fn(...args), ms);
-  };
+  return (...args) => { clearTimeout(timer); timer = setTimeout(() => fn(...args), ms); };
 }
 
-function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
-function qsa(sel, ctx) { return (ctx || document).querySelectorAll(sel); }
+const qs = (sel, ctx) => (ctx || document).querySelector(sel);
+const qsa = (sel, ctx) => (ctx || document).querySelectorAll(sel);
 
 /* ===== Mobile Menu ===== */
-const hamburger = document.getElementById('hamburger');
-const nav = document.getElementById('nav');
+(function menu() {
+  const hamburger = document.getElementById('hamburger');
+  const nav = document.getElementById('nav');
+  if (!hamburger || !nav) return;
 
-if (hamburger && nav) {
   hamburger.addEventListener('click', () => {
     const open = nav.classList.toggle('open');
     hamburger.classList.toggle('active');
@@ -37,213 +35,262 @@ if (hamburger && nav) {
       hamburger.focus();
     }
   });
-}
+})();
 
-/* ===== Header scroll effect ===== */
-const header = document.querySelector('.header');
-let lastScroll = 0;
+/* ===== Scroll Spy + Header + Back to Top ===== */
+(function scrollManager() {
+  const header = document.querySelector('.header');
+  const backToTop = document.getElementById('backToTop');
+  const sections = qsa('.section');
+  const navLinks = qsa('.nav__link');
+  const OFFSET = 200;
 
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  header.classList.toggle('scrolled', y > 40);
-  lastScroll = y;
-}, { passive: true });
+  let ticking = false;
 
-/* ===== Theme Toggle ===== */
-const themeToggle = document.getElementById('themeToggle');
-const stored = localStorage.getItem('theme');
+  function onScroll() {
+    const y = window.scrollY;
 
-function setTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-  if (themeToggle) {
-    themeToggle.innerHTML = theme === 'dark'
-      ? '<i class="fas fa-sun" aria-hidden="true"></i>'
-      : '<i class="fas fa-moon" aria-hidden="true"></i>';
-    themeToggle.setAttribute('aria-label', theme === 'dark' ? 'الوضع النهاري' : 'الوضع الليلي');
-    themeToggle.title = theme === 'dark' ? 'الوضع النهاري' : 'الوضع الليلي';
-  }
-}
+    header.classList.toggle('scrolled', y > 40);
 
-if (stored) {
-  setTheme(stored);
-} else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  setTheme('dark');
-}
-
-if (themeToggle) {
-  themeToggle.addEventListener('click', () => {
-    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    setTheme(next);
-  });
-}
-
-/* ===== Search & Filter ===== */
-const searchForm = document.getElementById('searchForm');
-const searchInput = document.getElementById('searchInput');
-const cards = qsa('.service-card');
-const noResults = document.getElementById('noResults');
-const noResultsTerm = document.getElementById('noResultsTerm');
-
-function filterServices(query) {
-  const term = query.trim().toLowerCase();
-  let visibleCount = 0;
-
-  cards.forEach(card => {
-    const category = (card.dataset.category || '').toLowerCase();
-    const title = (qs('.service-card__title', card) || {}).textContent || '';
-    const match = !term || category.includes(term) || title.toLowerCase().includes(term);
-    card.style.display = match ? '' : 'none';
-    if (match) visibleCount++;
-  });
-
-  if (noResults && noResultsTerm) {
-    const show = term.length > 0 && visibleCount === 0;
-    noResults.classList.toggle('show', show);
-    if (show) noResultsTerm.textContent = term;
-  }
-}
-
-const debouncedFilter = debounce(filterServices, 200);
-
-if (searchForm) {
-  searchForm.addEventListener('submit', e => {
-    e.preventDefault();
-    filterServices(searchInput.value);
-  });
-}
-
-if (searchInput) {
-  searchInput.addEventListener('input', () => debouncedFilter(searchInput.value));
-}
-
-/* ===== Hero tag clicks ===== */
-qsa('.hero__tag').forEach(tag => {
-  function triggerTag() {
-    const val = tag.dataset.search;
-    if (val && searchInput) {
-      searchInput.value = val;
-      searchInput.focus();
-      filterServices(val);
+    if (backToTop) {
+      backToTop.classList.toggle('visible', y > 500);
+      backToTop.setAttribute('tabindex', y > 500 ? '0' : '-1');
     }
-  }
 
-  tag.addEventListener('click', triggerTag);
-  tag.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      triggerTag();
-    }
-  });
-});
-
-/* ===== Stats counter animation ===== */
-function animateCounter(el) {
-  const target = +el.dataset.target;
-  if (!target) return;
-
-  const duration = 1500;
-  const start = performance.now();
-
-  function update(now) {
-    const progress = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - progress, 3);
-    el.textContent = Math.floor(eased * target).toLocaleString();
-    if (progress < 1) requestAnimationFrame(update);
-    else el.textContent = target.toLocaleString();
-  }
-
-  requestAnimationFrame(update);
-}
-
-const counterObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      animateCounter(entry.target);
-      counterObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.5 });
-
-qsa('.stat-card__num').forEach(el => counterObserver.observe(el));
-
-/* ===== Scroll Reveal ===== */
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-qsa('.reveal').forEach(el => revealObserver.observe(el));
-
-/* ===== Back to Top ===== */
-const backToTop = document.getElementById('backToTop');
-
-window.addEventListener('scroll', () => {
-  if (backToTop) {
-    backToTop.classList.toggle('visible', window.scrollY > 500);
-    backToTop.setAttribute('tabindex', window.scrollY > 500 ? '0' : '-1');
-  }
-}, { passive: true });
-
-if (backToTop) {
-  backToTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-}
-
-/* ===== Contact Form ===== */
-const contactForm = document.getElementById('contactForm');
-
-if (contactForm) {
-  contactForm.addEventListener('submit', e => {
-    e.preventDefault();
-
-    const name = document.getElementById('contactName');
-    const email = document.getElementById('contactEmail');
-    const msg = document.getElementById('contactMsg');
-    let valid = true;
-
-    [name, email, msg].forEach(el => {
-      if (el) el.classList.remove('error');
+    /* scroll spy */
+    let current = '';
+    sections.forEach(section => {
+      const top = section.offsetTop - 150;
+      const bottom = top + section.offsetHeight;
+      if (y >= top && y < bottom) current = section.id;
     });
 
-    if (name && !name.value.trim()) {
-      name.classList.add('error');
-      valid = false;
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+    });
+
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(onScroll);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  onScroll();
+
+  if (backToTop) {
+    backToTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+})();
+
+/* ===== Theme Toggle ===== */
+(function theme() {
+  const btn = document.getElementById('themeToggle');
+  const KEY = 'theme';
+
+  function getStored() {
+    try { return localStorage.getItem(KEY); } catch { return null; }
+  }
+
+  function setStored(val) {
+    try { localStorage.setItem(KEY, val); } catch { /* noop */ }
+  }
+
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    setStored(theme);
+    if (!btn) return;
+    const isDark = theme === 'dark';
+    btn.innerHTML = isDark
+      ? '<i class="fas fa-sun" aria-hidden="true"></i>'
+      : '<i class="fas fa-moon" aria-hidden="true"></i>';
+    btn.setAttribute('aria-label', isDark ? 'الوضع النهاري' : 'الوضع الليلي');
+    btn.title = isDark ? 'الوضع النهاري' : 'الوضع الليلي';
+  }
+
+  const stored = getStored();
+  if (stored) {
+    setTheme(stored);
+  } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    setTheme('dark');
+  }
+
+  if (btn) {
+    btn.addEventListener('click', () => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      setTheme(next);
+    });
+  }
+})();
+
+/* ===== Search & Filter ===== */
+(function search() {
+  const form = document.getElementById('searchForm');
+  const input = document.getElementById('searchInput');
+  const cards = qsa('.service-card');
+  const noResults = document.getElementById('noResults');
+  const noResultsTerm = document.getElementById('noResultsTerm');
+
+  function filter(query) {
+    const term = query.trim().toLowerCase();
+    let visibleCount = 0;
+
+    cards.forEach(card => {
+      const category = (card.dataset.category || '').toLowerCase();
+      const title = (qs('.service-card__title', card) || {}).textContent || '';
+      const match = !term || category.includes(term) || title.toLowerCase().includes(term);
+      card.style.display = match ? '' : 'none';
+      if (match) visibleCount++;
+    });
+
+    if (noResults && noResultsTerm) {
+      const show = term.length > 0 && visibleCount === 0;
+      noResults.classList.toggle('show', show);
+      if (show) noResultsTerm.textContent = term;
+    }
+  }
+
+  const debouncedFilter = debounce(filter, 200);
+
+  if (form) {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      filter(input.value);
+    });
+  }
+
+  if (input) {
+    input.addEventListener('input', () => debouncedFilter(input.value));
+  }
+
+  /* Hero tags */
+  qsa('.hero__tag').forEach(tag => {
+    function trigger() {
+      const val = tag.dataset.search;
+      if (val && input) {
+        input.value = val;
+        input.focus();
+        filter(val);
+      }
     }
 
-    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) {
-      email.classList.add('error');
-      valid = false;
+    tag.addEventListener('click', trigger);
+    tag.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        trigger();
+      }
+    });
+  });
+})();
+
+/* ===== Stats Counter ===== */
+(function counter() {
+  function animate(el) {
+    const target = +el.dataset.target;
+    if (!target) return;
+    const duration = 1500;
+    const start = performance.now();
+
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(eased * target).toLocaleString('ar-SA');
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = target.toLocaleString('ar-SA');
     }
 
-    if (msg && !msg.value.trim()) {
-      msg.classList.add('error');
-      valid = false;
+    requestAnimationFrame(update);
+  }
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        animate(entry.target);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  qsa('.stat-card__num').forEach(el => observer.observe(el));
+})();
+
+/* ===== Scroll Reveal ===== */
+(function reveal() {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  qsa('.reveal').forEach(el => observer.observe(el));
+})();
+
+/* ===== Toast System ===== */
+(function toast() {
+  const container = document.getElementById('toastContainer');
+  if (!container) return;
+
+  window.showToast = function (message, type) {
+    type = type || 'info';
+    const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+    const el = document.createElement('div');
+    el.className = `toast toast--${type}`;
+    el.innerHTML = `<i class="fas ${icons[type] || icons.info}" aria-hidden="true"></i><span>${message}</span>`;
+    container.appendChild(el);
+    setTimeout(() => { if (el.parentNode) el.remove(); }, 3200);
+  };
+})();
+
+/* ===== Contact Form ===== */
+(function contactForm() {
+  const form = document.getElementById('contactForm');
+  if (!form) return;
+
+  const name = document.getElementById('contactName');
+  const email = document.getElementById('contactEmail');
+  const msg = document.getElementById('contactMsg');
+  const btn = qs('.contact__btn', form);
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+
+    [name, email, msg].forEach(el => { if (el) el.classList.remove('error'); });
+
+    let valid = true;
+
+    if (name && !name.value.trim()) { name.classList.add('error'); valid = false; }
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim())) { email.classList.add('error'); valid = false; }
+    if (msg && !msg.value.trim()) { msg.classList.add('error'); valid = false; }
+
+    if (!valid) {
+      if (typeof showToast === 'function') showToast('يرجى تعبئة جميع الحقول بشكل صحيح', 'error');
+      return;
     }
-
-    if (!valid) return;
-
-    const btn = qs('.contact__btn', contactForm);
-    const orig = btn.innerHTML;
 
     btn.disabled = true;
     btn.innerHTML = 'جارٍ الإرسال <i class="fas fa-spinner fa-spin" aria-hidden="true"></i>';
 
     setTimeout(() => {
       btn.innerHTML = 'تم الإرسال <i class="fas fa-check" aria-hidden="true"></i>';
-      btn.style.background = '#25d366';
+      btn.style.background = 'var(--success)';
+
+      if (typeof showToast === 'function') showToast('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً', 'success');
 
       setTimeout(() => {
-        btn.innerHTML = orig;
+        btn.innerHTML = 'إرسال <i class="fas fa-paper-plane" aria-hidden="true"></i>';
         btn.style.background = '';
         btn.disabled = false;
-        contactForm.reset();
-      }, 2500);
-    }, 600);
+        form.reset();
+      }, 3000);
+    }, 800);
   });
-}
+})();
